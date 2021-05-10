@@ -2,8 +2,8 @@
 # BUSA3020 Advanced Analytics Techniques
 # Student Name: Cyrus Kwan
 # Student ID: 45200165
-# Last Modified: 09/05/2021
-# Accessible via: 
+# Last Modified: 10/05/2021
+# Accessible via: https://github.com/MQCyrusKwan/BUSA3020-Assessment-3---Clustering
 
 # Install package manager
 if(find.package("pacman") == FALSE){
@@ -11,15 +11,24 @@ if(find.package("pacman") == FALSE){
 }
 
 # load packages
-pacman::p_load(dplyr)
+pacman::p_load(dplyr, VIM)
+
+# Source functions from other R scripts
+source(file = "Youth_Preferences_Analysis.r")
 
 # Data from: https://ilearn.mq.edu.au/mod/folder/view.php?id=6351280
-survey_responses <- read.csv(file="responses.csv")
+survey_raw <- read.csv(file="responses.csv")
 
-# Extract music, movies, and demographics data
-music <- survey_responses %>%
-    select("Music":"Opera")
-movies <- survey_responses %>%
-    select("Movies":"Action")
-demographics <- survey_responses %>%
-    select("Age":"House - block of flats")
+# ------------------------------------------------------------------------------------------|
+# DESCRIPTIVE ANALYSIS:
+head(survey_data)
+str(survey_data)
+summary(survey_data)
+
+# ------------------------------------------------------------------------------------------|
+# DATA TREATMENT:
+
+# Creates new dataframe that uses KNN imputation
+# Extracts music, movies, and demographics data
+survey_data <- kNN(data = survey_raw) %>%
+    select("Music":"Opera", "Movies":"Action", "Age":"House...block.of.flats")
