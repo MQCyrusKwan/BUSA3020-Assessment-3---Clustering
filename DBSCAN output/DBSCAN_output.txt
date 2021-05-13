@@ -1,0 +1,7 @@
+> MM_db
+DBSCAN clustering for 1010 objects.
+Parameters: eps = 6.5, minPts = 2
+The clustering contains 2 cluster(s) and 37 noise points.
+
+  0   1   2
+ 37 971   2

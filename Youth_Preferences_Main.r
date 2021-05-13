@@ -51,6 +51,20 @@ MM_PCA <- prcomp(music_movies)
 
 summary(MM_PCA)
 
+RMM_PCA <- varimax(MM_PCA$rotation[, 1:14])$loadings
+
+# plot the rotated loadings
+plot(RMM_PCA, 
+     col = "lightblue", 
+     pch = 19, 
+     cex = 2,
+     main = "Rotated Factors")
+text(RMM_PCA, 
+     labels = rownames(RMM_PCA), 
+     cex = 0.75, 
+     font = 1)
+
+
 # Screeplot of principal components by squared variance
 MM_eigen <- MM_PCA$sdev^2
 plot(MM_eigen,
@@ -82,7 +96,7 @@ write.csv(MM_PCA$rotation, "MM_PCA.csv")
 
 # WSS Plot to choose maximum number of clusters
 wssplot(music_movies, title="Music & Movies k-means Elbow Plot")
-wssplot(opt_MM_PC, title="Optimal Principal Components k-means Elbow Plot")
+wssplot(opt_MM_PC, title="Number of Clusters k-means Elbow Plot")
 
 # Determines optimal number of clusters
 # > Optimal clusters for music & movies
@@ -99,7 +113,6 @@ plot(opt_MM_PC, col = PC_KMClust$clust)
 
 # > Detailed plots of principal components
 MM_KMClust <- kmeans(music_movies, 2)
-plot(music_movies, col=MM_KMClust$clust)
 for(component in 2:length(opt_MM_PC)){
     KMP <- autoplot(MM_KMClust, 
            music_movies, 
@@ -121,6 +134,7 @@ for(component in 2:length(opt_MM_PC)){
 # > Identifying the optimal eps(epsilon) value
 kNNdistplot(music_movies, k=5)
 abline(h=6.5, col="red", lty=5)
+title("kNN Epsilon Plot")
 
 # > Perform DBSCAN
 set.seed(1234)
@@ -215,10 +229,10 @@ for(clust_num in unique(KM_Merge$cluster)){
     filter(cluster==clust_num) %>%
     ggplot(aes(Number.of.siblings))+
         geom_bar()+
-        ggtitle(paste("Histogram of Number of Siblings in Cluster", clust_num))
+        ggtitle(paste("Barplot of Number of Siblings in Cluster", clust_num))
 
     ggsave(hist_nsib, file=paste("Graphs - Profiling/", 
-                       "Histogram of Number of Siblings in Cluster ", 
+                       "Barplot of Number of Siblings in Cluster ", 
                        clust_num, 
                        ".png",
                        sep=''),
@@ -232,10 +246,10 @@ for(clust_num in unique(KM_Merge$cluster)){
     filter(cluster==clust_num) %>%
     ggplot(aes(Gender))+
         geom_bar()+
-        ggtitle(paste("Histogram of Gender in Cluster", clust_num))
+        ggtitle(paste("Barplot of Gender in Cluster", clust_num))
 
     ggsave(gender, file=paste("Graphs - Profiling/", 
-                       "Histogram of Gender in Cluster ", 
+                       "Barplot of Gender in Cluster ", 
                        clust_num, 
                        ".png",
                        sep=''),
@@ -249,10 +263,10 @@ for(clust_num in unique(KM_Merge$cluster)){
     filter(cluster==clust_num) %>%
     ggplot(aes(Left...right.handed))+
         geom_bar()+
-        ggtitle(paste("Histogram of Handedness in Cluster", clust_num))
+        ggtitle(paste("Barplot of Handedness in Cluster", clust_num))
 
     ggsave(handed, file=paste("Graphs - Profiling/", 
-                       "Histogram of Handedness in Cluster ", 
+                       "Barplot of Handedness in Cluster ", 
                        clust_num, 
                        ".png",
                        sep=''),
@@ -266,10 +280,10 @@ for(clust_num in unique(KM_Merge$cluster)){
     filter(cluster==clust_num) %>%
     ggplot(aes(Education))+
         geom_bar()+
-        ggtitle(paste("Histogram of Education in Cluster", clust_num))
+        ggtitle(paste("Barplot of Education in Cluster", clust_num))
 
     ggsave(education, file=paste("Graphs - Profiling/", 
-                       "Histogram of Education in Cluster ", 
+                       "Barplot of Education in Cluster ", 
                        clust_num, 
                        ".png",
                        sep=''),
@@ -283,10 +297,10 @@ for(clust_num in unique(KM_Merge$cluster)){
     filter(cluster==clust_num) %>%
     ggplot(aes(Village...town))+
         geom_bar()+
-        ggtitle(paste("Histogram of Village - Town in Cluster", clust_num))
+        ggtitle(paste("Barplot of Village - Town in Cluster", clust_num))
 
     ggsave(vil_town, file=paste("Graphs - Profiling/", 
-                       "Histogram of Village - Town in Cluster ", 
+                       "Barplot of Village - Town in Cluster ", 
                        clust_num, 
                        ".png",
                        sep=''),
@@ -300,10 +314,10 @@ for(clust_num in unique(KM_Merge$cluster)){
     filter(cluster==clust_num) %>%
     ggplot(aes(House...block.of.flats))+
         geom_bar()+
-        ggtitle(paste("Histogram of House - Block of Flats in Cluster", clust_num))
+        ggtitle(paste("Barplot of House - Block of Flats in Cluster", clust_num))
 
     ggsave(house_flats, file=paste("Graphs - Profiling/", 
-                       "Histogram of House - Block of Flats in Cluster ", 
+                       "Barplot of House - Block of Flats in Cluster ", 
                        clust_num, 
                        ".png",
                        sep=''),

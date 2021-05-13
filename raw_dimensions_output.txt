@@ -1,0 +1,4 @@
+> ncol(survey_raw)
+[1] 150
+> nrow(survey_raw)
+[1] 1010

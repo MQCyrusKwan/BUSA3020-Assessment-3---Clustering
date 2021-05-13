@@ -1,0 +1,3 @@
+> names(select(survey_raw, -list_NA(survey_raw)))
+[1] "Snakes"              "Eating.to.survive"   "Dreams"
+[4] "Number.of.friends"   "Internet.usage"      "Spending.on.gadgets"

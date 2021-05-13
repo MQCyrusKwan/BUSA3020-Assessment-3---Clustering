@@ -1,0 +1,4 @@
+> table(PC_KMClust$clust)
+
+  1   2
+507 503
